@@ -78,22 +78,27 @@ function onMouseDown(event) {
 	console.log(event);
 	var hitResult = project.hitTest(event.downPoint,{type:"group", fill:true});
 	if (hitResult === null) {
+		if (selectedGroup == null){
+			return;
+		}
+		selectedGroup.endDrag();
 		selectedGroup = null;
 		return;
 	}
+
 	var g = hitResult.item.parent;
-	console.log("Group:",g);
+	if (selectedGroup !== g ){
+		if (selectedGroup != null){
+			selectedGroup.endDrag();
+		}
+	}
 	selectedGroup = g;
 	selectedGroup.startDrag();
 
 }
 
 function onMouseUp(event) {
-	if (selectedGroup == null){
-		return;
-	}
-	selectedGroup.endDrag();
-	selectedGroup = null;
+	
 }
 
 function onMouseDrag(event) {
@@ -101,7 +106,7 @@ function onMouseDrag(event) {
 		return;
 	}
 
-	selectedGroup.position = event.point;
+	selectedGroup.position += event.delta;
 
 }
 
