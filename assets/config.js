@@ -1,7 +1,9 @@
 requirejs.config({
   baseUrl: '../assets',
   shim: {
-
+    straps: {
+      exports: 'Base'
+    }
   },
   paths: {
     'underscore.string': '../bower_components/underscore.string/lib/underscore.string',
@@ -9,6 +11,7 @@ requirejs.config({
     requirejs: '../bower_components/requirejs/require',
     qunit: '../bower_components/qunit/qunit/qunit',
     paper: '../bower_components/paper/dist/paper',
-    jquery: '../bower_components/jquery/dist/jquery'
+    jquery: '../bower_components/jquery/dist/jquery',
+    straps: '../bower_components/straps/straps'
   }
 });
