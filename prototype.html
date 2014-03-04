@@ -8,8 +8,8 @@
 <script type="text/paperscript" canvas="myCanvas">
 
 var concept = function(label){
-	var verticalMargin = 5;
-	var horizontalMargin = 5;
+	var verticalMargin = 8;
+	var horizontalMargin = 10;
 
 
 	var group = new Group();
@@ -91,9 +91,10 @@ function onMouseDown(event) {
 		if (selectedGroup != null){
 			selectedGroup.endDrag();
 		}
+		selectedGroup = g;
+		selectedGroup.startDrag();
 	}
-	selectedGroup = g;
-	selectedGroup.startDrag();
+	
 
 }
 
