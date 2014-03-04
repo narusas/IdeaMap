@@ -4,7 +4,6 @@
 define(
 	['underscore' , 'straps','paper'], 
 	function(_, Base,  paper) {
-		console.log(paper);
 		/*
 		straps.js - Class inheritance library with support for bean-style accessors*
 		*/
