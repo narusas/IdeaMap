@@ -1,20 +1,12 @@
-describe("returns titles", function () {
-	var Concept;
+require(["assets/model/concept"], function(Concept){
+	describe("returns titles", function () {
+		it("contains spec with an expectation1", function() {
 
-	beforeEach(function(done) {
-        require(["assets/model/concept"], function(concept){
-            Concept = concept;
-            done();
-        });
-    });
-
-	it("contains spec with an expectation", function(done) {
-
-			console.log("Here2");
+			console.log("Here1-1");
     		expect(true).toBe(true);
-    		console.log("Here3");
+    		console.log("Here1-2");
     		console.log(Concept);
-			done();
-    	
-  	});
+			
+  		});
+	});
 });

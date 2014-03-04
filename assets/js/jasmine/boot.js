@@ -162,12 +162,50 @@
    */
   var currentWindowOnload = window.onload;
 
+  // Stack of AMD spec definitions
+  var specDefinitions = [];
+
+  // Store a ref to the current require function
+  window.oldRequire = require;
+
+  // Shim in our Jasmine spec require helper, which will queue up all of the definitions to be loaded in later.
+  window.require = function(deps, specCallback){
+    //push any module defined using require([deps], callback) onto the specDefinitions stack.
+    specDefinitions.push({ 'deps' : deps, 'specCallback' : specCallback });
+  };
+
   window.onload = function() {
+    // Restore original require functionality
+    window.require = oldRequire;
+     // Keep a ref to Jasmine context for when we execute later
+    var context = this,
+      requireCalls = 0, // counter of (successful) require callbacks
+      specCount = specDefinitions.length; // # of AMD specs we're expecting to load
+
+    // func to execute the AMD callbacks for our test specs once requireJS has finished loading our deps
+    function execSpecDefinitions() {
+      //exec the callback of our AMD defined test spec, passing in the returned modules.
+      this.specCallback.apply(context, arguments);        
+      requireCalls++; // inc our counter for successful AMD callbacks.
+      if(requireCalls === specCount){
+        //do the normal Jamsine HTML reporter initialization
+        htmlReporter.initialize.call(context);
+        //execute our Jasmine Env, now that all of our dependencies are loaded and our specs are defined.
+        env.execute.call(context);
+      }
+    }
+
+    var specDefinition;
+    // iterate through all of our AMD specs and call require with our spec execution callback
+    for (var i = specDefinitions.length - 1; i >= 0; i--) {
+      require(specDefinitions[i].deps, execSpecDefinitions.bind(specDefinitions[i]));
+    }
+
     if (currentWindowOnload) {
       currentWindowOnload();
     }
-    htmlReporter.initialize();
-    env.execute();
+    //htmlReporter.initialize();
+    //env.execute();
   };
 
   /**
