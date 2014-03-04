@@ -24,7 +24,7 @@ define(['model/concept', 'paper'], function(Concept, paper){
 
 		var changed = false;
 		c.listen(function(source, propertyName, newValue, oldValue ){
-			ok(c === source);
+			ok(c === source, "event must occured in we listened ");
 			equal('position', propertyName, 'fired change event source is position');
 			equal(10, newValue.x, 'new value = 10');
 			equal(0, oldValue.x, 'old value = 0');
