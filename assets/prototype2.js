@@ -64,6 +64,9 @@ require(
 			selectedGroup.viewComponent.model.moveTo(event.delta.x, event.delta.y);
 
 		}
+
+		// javascript 를 이용할경우 paper는 자동 draw를 하지 않는다. 
+		// 명시적으로  draw()를 호출하거나 onFrame에 콜백을 넣어주면 된다. 
 		paper.view.onFrame = function(){
 			
 		};

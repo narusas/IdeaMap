@@ -7,7 +7,10 @@ define(
 		var ConveptView = function(concept){
 			var view = this;
 			this.group = new paper.Group();
+
+			// hitResult에서 group을 검색한 후 View component인 ConceptView 자신을 찾기 위한 parent 객체로서 viewComponent를 추가
 			this.group.viewComponent = this;
+
 			this.model = concept;
 			this.model.listen(function(source, propertyName, newValue, oldValue){
 				view.update();
@@ -56,7 +59,9 @@ define(
 				borderRectanlge.bounds.height  	=	outlineHeight;
 				borderRectanlge.bounds.point 	= 	view.group.bounds.point;
 			}
+			
 			this.update = function(){
+				// 현재는 position만 반영하지만, text등 다른 property 의 변경도 반영 할수 있어야 함
 				text.position = new paper.Point(concept.x,concept.y);
 				bgRectanlge.position = new paper.Point(concept.x,concept.y);
 				borderRectanlge.position = new paper.Point(concept.x,concept.y);
