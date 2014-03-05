@@ -2,8 +2,8 @@
 	
 */
 define(
-	['underscore'], 
-	function(_){
+	['underscore','paper'], 
+	function(_, paper){
 		var Entity = {
 			_x: 0,
 			_y: 0,
@@ -43,6 +43,9 @@ define(
 				this.setX(this._x + x);
 				this.setY(this._y + y);
 				this.fireChanged('position', [this._x, this._y], [oldX, oldY]);
+			},
+			asPoint: function() {
+				return new paper.Point(this._x, this._y);
 			}
 		};
 

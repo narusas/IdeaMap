@@ -1,71 +1,118 @@
 define(
-	['paper'], 
-	function(paper){
+	['underscore', 'paper'], 
+	function(_, paper){
+
 		var verticalMargin = 8;
 		var horizontalMargin = 10;
+		var radius = 10;
+		var bgFillColor = "red";
+		var borderStrokeColor = "black";
+		var borderStrokeWidth = 3;
+		var selectedScaleUp = 1.2;
 
 		var ConveptView = function(concept){
 			var view = this;
+
 			this.group = new paper.Group();
 
 			// hitResult에서 group을 검색한 후 View component인 ConceptView 자신을 찾기 위한 parent 객체로서 viewComponent를 추가
 			this.group.viewComponent = this;
 
 			this.model = concept;
+
 			this.model.listen(function(source, propertyName, newValue, oldValue){
 				view.update();
+			
 			});
 
-			var text = new paper.PointText(new paper.Point(concept.x,concept.y));
-			text.content = concept.text;
-			text.fillColor = 'black';
-			text.position = new paper.Point(concept.x,concept.y);
-			var textWidth = text.bounds.width;
-			var textHeight = text.bounds.height;
+			this.borderSize = function() {
+				return new paper.Size(
+					view.textComponent.bounds.width 	+ horizontalMargin 	* 2,
+					view.textComponent.bounds.height 	+ verticalMargin 	* 2
+				);
+			};
 
-			var rectangleDefinition = new paper.Rectangle(
-				new paper.Point(concept.x,concept.y), 
-				new paper.Size(textWidth + horizontalMargin * 2,textHeight + verticalMargin * 2)
-			);
+			this.textComponent = new paper.PointText(concept.asPoint());
+			
+			this.updateText = function() {
+				view.textComponent.content = concept.text;
+				view.textComponent.fillColor = "black";
 
-			var bgRectanlge = new paper.Shape.Rectangle(rectangleDefinition, 10);
+				// Concept의 position은 ConceptView의 중심점
+				view.textComponent.position = concept.asPoint();
+			};
+			this.updateText();
 
-			var outlineWidth = bgRectanlge.bounds.width;
-			var outlineHeight = bgRectanlge.bounds.height;
-			bgRectanlge.fillColor = "red";
-			bgRectanlge.position = new paper.Point(concept.x,concept.y);
-			this.group.addChild(bgRectanlge);
+			
 
-			var borderRectanlge = new paper.Shape.Rectangle(rectangleDefinition, 10);
-			borderRectanlge.strokeColor = 'black';
-			borderRectanlge.strokeWidth = 3;
-			borderRectanlge.position = new paper.Point(concept.x,concept.y);
-			this.group.addChild(borderRectanlge);
+			this.bgComponent = new paper.Shape.Rectangle(new paper.Rectangle(
+				concept.asPoint(), 
+				view.borderSize()
+			), radius);
+			this.bgComponent.fillColor = bgFillColor;
+			this.updateBg = function() {
+				view.bgComponent.size = view.borderSize();
+				view.bgComponent.radius = radius;
+				view.bgComponent.position = concept.asPoint();
+				
+			};
+			this.updateBg();
 
-			this.group.addChild(text);
+			this.borderComponent = new paper.Shape.Rectangle(new paper.Rectangle(
+				concept.asPoint(), 
+				view.borderSize()
+			), radius);
+			this.borderComponent.strokeColor = borderStrokeColor;
+			this.borderComponent.strokeWidth = borderStrokeWidth;
+
+			this.updateBorder = function(){
+				view.borderComponent.size = view.borderSize();
+				view.borderComponent.radius = radius;
+				view.borderComponent.position 	= concept.asPoint();
+			};
+			this.updateBorder();
+
+
+			this.group.addChild(this.bgComponent);
+			this.group.addChild(this.textComponent);
+			this.group.addChild(this.borderComponent);
+
+			this.update = function() {
+				view.updateText();
+				view.updateBg();
+				view.updateBorder();
+			};
+
+			this.scaleUpBorder = function() {
+				view.bgComponent.scale( selectedScaleUp );
+				view.borderComponent.scale( selectedScaleUp );
+				view.update();
+			};
+
+			this.scaleDownBorder = function(){
+				var size = view.borderSize();
+				view.borderComponent.bounds = new paper.Rectangle(concept.asPoint(), size);
+				view.bgComponent.bounds = new paper.Rectangle(concept.asPoint(), size);
+				view.update();
+			};
 
 			this.group.startDrag = function(){
-				bgRectanlge.scale(1.2);
-				borderRectanlge.scale(1.2);
-				
+				view.scaleUpBorder();
 			}
 
 			this.group.endDrag = function(){
-				bgRectanlge.bounds.width  	= 	outlineWidth;
-				bgRectanlge.bounds.height  	=	outlineHeight;
-				bgRectanlge.bounds.point 	= 	view.group.bounds.point;
-
-				borderRectanlge.bounds.width  	= 	outlineWidth;
-				borderRectanlge.bounds.height  	=	outlineHeight;
-				borderRectanlge.bounds.point 	= 	view.group.bounds.point;
-			}
+				view.scaleDownBorder();
+				
+				
 			
-			this.update = function(){
-				// 현재는 position만 반영하지만, text등 다른 property 의 변경도 반영 할수 있어야 함
-				text.position = new paper.Point(concept.x,concept.y);
-				bgRectanlge.position = new paper.Point(concept.x,concept.y);
-				borderRectanlge.position = new paper.Point(concept.x,concept.y);
-			};
+			}
+
+			// this.update = function(){
+			// 	// 현재는 position만 반영하지만, text등 다른 property 의 변경도 반영 할수 있어야 함
+			// 	text.position = new paper.Point(concept.x,concept.y);
+			// 	bgRectanlge.position = new paper.Point(concept.x,concept.y);
+			// 	borderRectanlge.position = new paper.Point(concept.x,concept.y);
+			// };
 		};
 		return ConveptView;
 	}
