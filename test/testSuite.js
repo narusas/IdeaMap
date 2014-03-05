@@ -8,6 +8,6 @@ require(
 		
 	], 
 	function(){
-    	QUnit.start(); //Tests loaded, run tests
+		QUnit.start(); //Tests loaded, run tests
 	}
 );

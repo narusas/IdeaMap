@@ -2,8 +2,8 @@
 	Main 역활을 수행
 */
 require(
-	['paper', 'model/concept', 'view/conceptView'],
-	function(paper, Concept, ConceptView){
+	['paper', 'model/concept', 'view/conceptView', 'view/relationView'],
+	function(paper, Concept, ConceptView, RelationView){
 		var canvas = document.getElementById('myCanvas');
 		// Create an empty project and a view for the canvas:
 		paper.setup(canvas);
@@ -18,12 +18,18 @@ require(
 		concept1.x = 100;
 		concept1.y = 100;
 		concept1.text = "Hello";
-		var view1 = new ConceptView(concept1);
+		
 
 		var concept2 = new Concept();
 		concept2.x = 200;
 		concept2.y = 200;
 		concept2.text = "Hello world is typical text example.";
+
+		var relation1 = concept1.linkTo(concept2, 'binded');
+
+
+		var view3 = new RelationView(relation1);
+		var view1 = new ConceptView(concept1);
 		var view2 = new ConceptView(concept2);
 		
 

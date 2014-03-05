@@ -1,3 +1,7 @@
+/*
+Model 전체에 대한 Facade 역활을 수행한다. 
+
+*/
 define(
 	['underscore','straps', 'model/entity', 'model/concept'], 
 	function(_, Base, Entity, Concept){

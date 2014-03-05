@@ -7,18 +7,29 @@ define(
 				this._endpointB = null;
 				this._text = null;
 			},
+			endpointChanged: function(source, propertyName, newValue, oldValue){
+				this.fireChanged('endpoints', newValue, oldValue);
+			},
 			getEndpointA: function() {
 				return this._endpointA;
 			},
 			setEndpointA: function(concept){
+				var that = this;
 				this._endpointA = concept;
+				this._endpointA.listen(function(source, propertyName, newValue, oldValue){
+					that.endpointChanged(source, propertyName, newValue, oldValue);
+				});
 			},
 
 			getEndpointB: function() {
 				return this._endpointB;
 			},
 			setEndpointB: function(concept){
+				var that = this;
 				this._endpointB = concept;
+				this._endpointB.listen(function(source, propertyName, newValue, oldValue){
+					that.endpointChanged(source, propertyName, newValue, oldValue);
+				});
 			},
 
 			getText:function() {
@@ -34,6 +45,21 @@ define(
 				this._endpointA = null;
 				this._endpointB.unlink(this);
 				this._endpointB = null;
+			},
+
+			asPoint: function() {
+				var pointA 	= this._endpointA.asPoint();
+				var pointB 	= this._endpointB.asPoint();
+				var left 	= Math.min(pointA.x, pointB.x);
+				var right 	= Math.max(pointA.x, pointB.x);
+				var top 	= Math.min(pointA.y, pointB.y);
+				var bottom 	= Math.max(pointA.y, pointB.y);
+				var width 	= right - left;
+				var height	= bottom - top;
+
+				var center = new paper.Point(left + width /2, top + height /2);
+
+				return center;
 			},
 
 

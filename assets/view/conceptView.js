@@ -33,11 +33,10 @@ define(
 			};
 
 			this.textComponent = new paper.PointText(concept.asPoint());
+			this.textComponent.fillColor = "black";
 			
 			this.updateText = function() {
 				view.textComponent.content = concept.text;
-				view.textComponent.fillColor = "black";
-
 				// Concept의 position은 ConceptView의 중심점
 				view.textComponent.position = concept.asPoint();
 			};
