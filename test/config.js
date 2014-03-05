@@ -1,5 +1,5 @@
 requirejs.config({
-  baseUrl: 'assets',
+  baseUrl: '../assets',
   shim: {
     straps: {
       exports: 'Base'

@@ -42,10 +42,13 @@ module.exports = function(grunt) {
     },
     
     bower: {
-      target: {
+      app: {
         rjsConfig: 'assets/config.js',
         baseUrl: 'assets'
-        
+      },
+      test: {
+        rjsConfig: 'test/config.js',
+        baseUrl: 'assets'
       }
     }
 
@@ -56,7 +59,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  //grunt.loadNpmTasks('grunt-bower-task');  //  grunt-bower-requirejs 와 충돌 함 
   grunt.loadNpmTasks('grunt-bower-requirejs');
+  
+
 
   
   grunt.registerTask('test', ['jshint', 'qunit']);
