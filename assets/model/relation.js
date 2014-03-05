@@ -16,9 +16,7 @@ define(
 			setEndpointA: function(concept){
 				var that = this;
 				this._endpointA = concept;
-				this._endpointA.listen(function(source, propertyName, newValue, oldValue){
-					that.endpointChanged(source, propertyName, newValue, oldValue);
-				});
+				this._endpointA.listen(this.endpointChanged, this);
 			},
 
 			getEndpointB: function() {
@@ -27,9 +25,7 @@ define(
 			setEndpointB: function(concept){
 				var that = this;
 				this._endpointB = concept;
-				this._endpointB.listen(function(source, propertyName, newValue, oldValue){
-					that.endpointChanged(source, propertyName, newValue, oldValue);
-				});
+				this._endpointB.listen(this.endpointChanged, this);
 			},
 
 			getText:function() {

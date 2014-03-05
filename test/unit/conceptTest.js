@@ -71,5 +71,43 @@ define(
 			ok( changed === true);
 
 		});
+
+		test('Event callback owership problem 1', function(){
+			var obj = {
+				value: 0,
+				func: function() {
+					this.value++;
+				}
+			};
+			
+			var c = new Concept();
+
+			// 함수 호출시 apply등을 이용해 ownership을 지정하지 않으면 객체의 속성인 함수가 정상적으로 호출되지 않을수 있다. 
+			c.listen(obj.func, obj);
+			equal(0, obj.value);
+
+			c.x = 5;
+			equal(1, obj.value);			
+		});
+
+		test('Event callback owership problem 2', function(){
+			var obj = {
+				value: 0,
+				func: function() {
+					this.value++;
+				}
+			};
+			
+			var c = new Concept();
+
+			// ownership을 넘기지 않는다면 객체에 메시지를 보내는 adopter 함수를 등록해 사용할수도 있다. 
+			c.listen(function(){
+				obj.func();
+			});
+			equal(0, obj.value);
+
+			c.x = 5;
+			equal(1, obj.value);			
+		});
 	}
 );

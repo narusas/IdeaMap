@@ -8,16 +8,29 @@ define(
 			_x: 0,
 			_y: 0,
 			listeners: null,
-			listen: function(listener){
+			listen: function(listener, self){
 				if(this.listeners === null){
 					this.listeners = [];
 				}
-    			this.listeners.push(listener);
+				if (self === undefined){
+					this.listeners.push(listener);
+				}
+				else {
+					this.listeners.push([listener, self]);
+				}
+    			
     		},
     		fireChanged: function(propertyName,  newValue, oldValue){
     			var that = this;
 				_.each(this.listeners, function(listener){
-					listener(that, propertyName, newValue, oldValue);
+					if (_.isArray(listener)){
+						var callback = listener[0];
+						var self = listener[1];
+						callback.apply(self);
+					}
+					else {
+						listener(that, propertyName, newValue, oldValue);	
+					}
 				});
 			},
 
