@@ -72,6 +72,23 @@ define(
 
 		});
 
+		test('Event callback owership problem 1 - fail case', function(){
+			var obj = {
+				value: 0,
+				func: function() {
+					this.value++;
+				}
+			};
+			
+			var c = new Concept();
+
+			c.listen(obj.func);
+			equal(0, obj.value);
+
+			c.x = 5;
+			equal(0, obj.value, "callback 함수의 owner 객체를 주지 않았기 때문에 obj의 값이 변하지 않는다");			
+		});
+
 		test('Event callback owership problem 1', function(){
 			var obj = {
 				value: 0,
@@ -89,6 +106,8 @@ define(
 			c.x = 5;
 			equal(1, obj.value);			
 		});
+
+		
 
 		test('Event callback owership problem 2', function(){
 			var obj = {
