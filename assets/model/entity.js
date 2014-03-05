@@ -7,8 +7,11 @@ define(
 		var Entity = {
 			_x: 0,
 			_y: 0,
-			listeners: [],
+			listeners: null,
 			listen: function(listener){
+				if(this.listeners === null){
+					this.listeners = [];
+				}
     			this.listeners.push(listener);
     		},
     		fireChanged: function(propertyName,  newValue, oldValue){
@@ -37,8 +40,8 @@ define(
 			moveTo: function(x, y){
 				var oldX = this._x;
 				var oldY = this._y;
-				this.setX(this._x+x);
-				this.setY(this._y+y);
+				this.setX(this._x + x);
+				this.setY(this._y + y);
 				this.fireChanged('position', [this._x, this._y], [oldX, oldY]);
 			}
 		};
