@@ -7,7 +7,7 @@ define(
 				this._endpointB = null;
 				this._text = null;
 			},
-			endpointChanged: function(source, propertyName, newValue, oldValue){
+			endpointChanged: function(source, eventName, newValue, oldValue){
 				this.fireChanged('endpoints', newValue, oldValue);
 			},
 			getEndpointA: function() {
@@ -56,6 +56,10 @@ define(
 				var center = new paper.Point(left + width /2, top + height /2);
 
 				return center;
+			},
+
+			isLinked: function(concept){
+				return this._endpointA == concept || this._endpointB == concept;
 			},
 
 

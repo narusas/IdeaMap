@@ -1,6 +1,6 @@
 define(
-	['underscore', 'paper'], 
-	function(_, paper){
+	['underscore', 'straps', 'paper', 'view/view'], 
+	function(_, Base, paper, View){
 
 		var verticalMargin = 8;
 		var horizontalMargin = 10;
@@ -10,109 +10,89 @@ define(
 		var borderStrokeWidth = 3;
 		var selectedScaleUp = 1.2;
 
-		var ConveptView = function(concept){
-			var view = this;
+		var ConveptView = Base.extend(View, {
+			initialize: function(concept){
+				var view = this;
+				this.initializeView(concept, "concept");
 
-			this.group = new paper.Group();
+				this.textComponent = new paper.PointText(concept.asPoint());
+				this.textComponent.fillColor = "black";
+				this.updateText();
 
-			// hitResult에서 group을 검색한 후 View component인 ConceptView 자신을 찾기 위한 parent 객체로서 viewComponent를 추가
-			this.group.viewComponent = this;
+				this.bgComponent = new paper.Shape.Rectangle(new paper.Rectangle(
+					concept.asPoint(), 
+					this.borderSize()
+				), radius);
+				this.bgComponent.fillColor = bgFillColor;
+				this.updateBg();
 
-			this.model = concept;
-
-			this.model.listen(function(source, propertyName, newValue, oldValue){
-				view.update();
-			
-			});
-
-			this.borderSize = function() {
-				return new paper.Size(
-					view.textComponent.bounds.width 	+ horizontalMargin 	* 2,
-					view.textComponent.bounds.height 	+ verticalMargin 	* 2
+				this.borderComponent = new paper.Shape.Rectangle(
+					new paper.Rectangle(
+						concept.asPoint(), 
+						view.borderSize()
+					), radius
 				);
-			};
+				this.borderComponent.strokeColor = borderStrokeColor;
+				this.borderComponent.strokeWidth = borderStrokeWidth;
+				this.updateBorder();
 
-			this.textComponent = new paper.PointText(concept.asPoint());
-			this.textComponent.fillColor = "black";
+				this.group.addChild(this.bgComponent);
+				this.group.addChild(this.textComponent);
+				this.group.addChild(this.borderComponent);
+
+				this.group.startDrag = function(){
+					view.scaleUpBorder();
+				}
+
+				this.group.endDrag = function(){
+					view.scaleDownBorder();
+				}
+			},
+
+			borderSize : function() {
+				return new paper.Size(
+					this.textComponent.bounds.width 	+ horizontalMargin 	* 2,
+					this.textComponent.bounds.height 	+ verticalMargin 	* 2
+				);
+			},
 			
-			this.updateText = function() {
-				view.textComponent.content = concept.text;
+			updateText : function() {
+				this.textComponent.content = this.model.text;
 				// Concept의 position은 ConceptView의 중심점
-				view.textComponent.position = concept.asPoint();
-			};
-			this.updateText();
-
+				this.textComponent.position = this.model.asPoint();
+			},
 			
-
-			this.bgComponent = new paper.Shape.Rectangle(new paper.Rectangle(
-				concept.asPoint(), 
-				view.borderSize()
-			), radius);
-			this.bgComponent.fillColor = bgFillColor;
-			this.updateBg = function() {
-				view.bgComponent.size = view.borderSize();
-				view.bgComponent.radius = radius;
-				view.bgComponent.position = concept.asPoint();
+			updateBg : function() {
+				this.bgComponent.size = this.borderSize();
+				this.bgComponent.radius = radius;
+				this.bgComponent.position = this.model.asPoint();
 				
-			};
-			this.updateBg();
-
-			this.borderComponent = new paper.Shape.Rectangle(new paper.Rectangle(
-				concept.asPoint(), 
-				view.borderSize()
-			), radius);
-			this.borderComponent.strokeColor = borderStrokeColor;
-			this.borderComponent.strokeWidth = borderStrokeWidth;
-
-			this.updateBorder = function(){
-				view.borderComponent.size = view.borderSize();
-				view.borderComponent.radius = radius;
-				view.borderComponent.position 	= concept.asPoint();
-			};
-			this.updateBorder();
-
-
-			this.group.addChild(this.bgComponent);
-			this.group.addChild(this.textComponent);
-			this.group.addChild(this.borderComponent);
-
-			this.update = function() {
-				view.updateText();
-				view.updateBg();
-				view.updateBorder();
-			};
-
-			this.scaleUpBorder = function() {
-				view.bgComponent.scale( selectedScaleUp );
-				view.borderComponent.scale( selectedScaleUp );
-				view.update();
-			};
-
-			this.scaleDownBorder = function(){
-				var size = view.borderSize();
-				view.borderComponent.bounds = new paper.Rectangle(concept.asPoint(), size);
-				view.bgComponent.bounds = new paper.Rectangle(concept.asPoint(), size);
-				view.update();
-			};
-
-			this.group.startDrag = function(){
-				view.scaleUpBorder();
-			}
-
-			this.group.endDrag = function(){
-				view.scaleDownBorder();
-				
-				
+			},
 			
-			}
+			updateBorder : function(){
+				this.borderComponent.size = this.borderSize();
+				this.borderComponent.radius = radius;
+				this.borderComponent.position 	= this.model.asPoint();
+			},
 
-			// this.update = function(){
-			// 	// 현재는 position만 반영하지만, text등 다른 property 의 변경도 반영 할수 있어야 함
-			// 	text.position = new paper.Point(concept.x,concept.y);
-			// 	bgRectanlge.position = new paper.Point(concept.x,concept.y);
-			// 	borderRectanlge.position = new paper.Point(concept.x,concept.y);
-			// };
-		};
+			update : function() {
+				this.updateText();
+				this.updateBg();
+				this.updateBorder();
+			},
+
+			scaleUpBorder : function() {
+				this.bgComponent.scale( selectedScaleUp );
+				this.borderComponent.scale( selectedScaleUp );
+				this.update();
+			},
+			scaleDownBorder : function(){
+				var size = this.borderSize();
+				this.borderComponent.bounds = new paper.Rectangle(this.model.asPoint(), size);
+				this.bgComponent.bounds = new paper.Rectangle(this.model.asPoint(), size);
+				this.update();
+			},
+		});
 		return ConveptView;
 	}
 );

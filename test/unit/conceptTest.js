@@ -2,7 +2,7 @@ define(
 	['model/concept', 'paper'], 
 	function(Concept, paper){
 
-		test('Initial properties of concept', function(){
+		test('컨셉의 초기값 확인', function(){
 			var c = new Concept();
 			equal(0, c.x, "initial x position = 0");
 			equal(0, c.y, "initial y position = 0");
@@ -52,7 +52,7 @@ define(
 			c2.listen(function(){});
 			ok(c2.listeners !== null);
 
-			ok (c1.listeners !== c2.listeners, "서로 다른 인스턴스간에 listeners가 공유되지 않는다. ");
+			ok (c1.listeners !== c2.listeners, "서로 다른 인스턴스간에 listeners를 공유하지 않아야 한다. ");
 		});
 
 		test('위치 이동', function(){
@@ -73,6 +73,8 @@ define(
 		});
 
 		test('Event callback owership problem 1 - fail case', function(){
+			// Note: http://okjungsoo.tistory.com/entry/Functionapply
+			// 
 			var obj = {
 				value: 0,
 				func: function() {
@@ -119,14 +121,14 @@ define(
 			
 			var c = new Concept();
 
-			// ownership을 넘기지 않는다면 객체에 메시지를 보내는 adopter 함수를 등록해 사용할수도 있다. 
+			// ownership을 넘기지 않는다면 객체에 메시지를 보내는 adapter 함수를 등록해 사용할수도 있다. 
 			c.listen(function(){
 				obj.func();
 			});
 			equal(0, obj.value);
 
 			c.x = 5;
-			equal(1, obj.value);			
+			equal(1, obj.value, "아답터 함수를 통해 객체 호출을 했기 때문에 객체의 값이 변해야 한다.");			
 		});
 	}
 );

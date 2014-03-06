@@ -20,7 +20,7 @@ define(
 				}
     			
     		},
-    		fireChanged: function(propertyName,  newValue, oldValue){
+    		fireChanged: function(eventName,  newValue, oldValue){
     			var that = this;
 				_.each(this.listeners, function(listener){
 					if (_.isArray(listener)){
@@ -29,7 +29,7 @@ define(
 						callback.apply(self);
 					}
 					else {
-						listener(that, propertyName, newValue, oldValue);	
+						listener(that, eventName, newValue, oldValue);	
 					}
 				});
 			},
@@ -57,6 +57,9 @@ define(
 				this.setY(this._y + y);
 				this.fireChanged('position', [this._x, this._y], [oldX, oldY]);
 			},
+			/*
+			편의상 paper.Point를 직접 사용하고 있는데 약간 회의가 듬
+			*/
 			asPoint: function() {
 				return new paper.Point(this._x, this._y);
 			}

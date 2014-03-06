@@ -25,6 +25,9 @@ define(
     			this.fireChanged('text', this._text, oldValue);
     		},
     		linkTo: function(otherConcept, text){
+    			if( this.isLinkedTo(otherConcept)){
+    				return null;
+    			}
     			var relation = new Relation();
     			relation.text = text;
     			relation.endpointA = this;
@@ -38,7 +41,15 @@ define(
     		unlink: function(relation){
     			this.relations.pop(relation);
     			this.fireChanged('relations', null, relation);
-    		}
+    		},
+
+    		isLinkedTo: function(otherConcept){
+    			var that = this;
+    			var result = _.find(this.relations, function(relation){
+    				return relation.isLinked(that);
+    			});
+    			return (result === undefined || result === null)? false: true;
+    		},
 		});
 
 		_.extend(Concept, Entity);
