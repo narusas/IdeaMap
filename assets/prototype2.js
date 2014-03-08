@@ -11,8 +11,7 @@ require(
 		// 모든 Item들은 현재 activated 된 layer에 자동으로 추가된다. 
 		var layer = new paper.Layer();
 		layer.activate();
-
-
+		
 
 		var concept1 = new Concept();
 		concept1.x = 100;
