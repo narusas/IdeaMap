@@ -26,7 +26,7 @@ define(
 					if (_.isArray(listener)){
 						var callback = listener[0];
 						var self = listener[1];
-						callback.apply(self);
+						callback.apply(self, [that, eventName, newValue, oldValue]);
 					}
 					else {
 						listener(that, eventName, newValue, oldValue);	

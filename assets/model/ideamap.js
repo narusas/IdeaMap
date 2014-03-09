@@ -23,7 +23,7 @@ define(
 
 			addConcept: function(concept){
 				this.concepts.push(concept);
-				this.fireChanged('concepts', concept);
+				this.fireChanged('addConcept', concept);
 			},
 
 			link: function(concept1, concept2, text) {
@@ -34,13 +34,13 @@ define(
 
 			addRelation: function(relation) {
 				this.relations.push(relation);
-				this.fireChanged('relations', relation);
+				this.fireChanged('addRelation', relation);
 			},
 
 			unlink: function(relation){
 				relation.unlink();
 				this.relations.pop(relation);
-				this.fireChanged('relations', null, relation);
+				this.fireChanged('removeRelation', relation);
 			},
 		});
 

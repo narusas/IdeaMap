@@ -21,8 +21,11 @@ define(
 
 				this.group.addChild(this.lineComponent);
 				this.group.addChild(this.textComponent);
+				this.update();
 			},
 			updateLine: function(){
+				console.log(this.model.endpointA.asPoint());
+				console.log(this.model.endpointB.asPoint());
 				this.lineComponent.firstSegment.point 	= this.model.endpointA.asPoint();
 				this.lineComponent.lastSegment.point 	= this.model.endpointB.asPoint();
 			},
