@@ -52,5 +52,13 @@ define(
 			equal(1, c1.relations.length, "추가되지 않았기 때문에 1개만 있어야 함");
 			equal(1, c2.relations.length, "추가되지 않았기 때문에 1개만 있어야 함");
 		});
+
+		test('반대편 찾기', function(){	
+			var c1 = new Concept();
+			var c2 = new Concept();
+			var relation1 = c1.linkTo(c2, 'linked');
+			equal(c1, relation1.otherSide(c2));
+			equal(c2, relation1.otherSide(c1));
+		});
 	}
 );

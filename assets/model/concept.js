@@ -15,6 +15,9 @@ define(
 				this._text = "";
 				this.ui = {};
         		this.relations = [];
+                this._bgColor = 1;
+                this._borderColor = 2;
+                this._textColor = 2;
     		},
     		getText:function(){
     			return this._text;
@@ -24,6 +27,32 @@ define(
     			this._text = newText;
     			this.fireChanged('text', this._text, oldValue);
     		},
+            getBorderColor: function() {
+                return this._borderColor;
+            },
+            setBorderColor: function(colorIndex){
+                var oldValue = this._borderColor;
+                this._borderColor = colorIndex;
+                this.fireChanged('borderColorChanged',colorIndex,  oldValue);
+            },
+            getTextColor: function() {
+                return this._textColor;
+            },
+            setTextColor: function(colorIndex){
+                var oldValue = this._textColor;
+                this._textColor = colorIndex;
+                this.fireChanged('textColorChanged',colorIndex,  oldValue);
+            },
+            getBgColor: function() {
+                return this._bgColor;
+            },
+            setBgColor: function(colorIndex){
+                var oldValue = this._bgColor;
+                this._bgColor = colorIndex;
+                this.fireChanged('bgColorChanged',colorIndex,  oldValue);
+            },
+
+            // bgColor, textColor도 추가
     		linkTo: function(otherConcept, text){
     			if( this.isLinkedTo(otherConcept)){
     				return null;
@@ -34,13 +63,13 @@ define(
     			relation.endpointB = otherConcept;
     			this.relations.push(relation);
     			otherConcept.relations.push(relation);
-    			this.fireChanged('relations', relation);
+    			this.fireChanged('linked', relation);
     			return relation;
     		},
 
     		unlink: function(relation){
     			this.relations.pop(relation);
-    			this.fireChanged('relations', null, relation);
+    			this.fireChanged('unlinked', relation);
     		},
 
     		isLinkedTo: function(otherConcept){
@@ -52,8 +81,7 @@ define(
     		},
 		});
 
-		_.extend(Concept, Entity);
-
+		
 		return  Concept; // 클래스를 반환함
 	}
 );

@@ -7,10 +7,10 @@ define(
 				
 			},
 			modelChanged: function(source, eventName, newValue, oldValue){
-				if (eventName === 'addRelation'){
+				if (eventName === 'relationAdded'){
 					this.addChild(newValue);
 				}
-				else if (eventName === 'removeRelation'){
+				else if (eventName === 'relationRemoved'){
 					this.removeChild(newValue);
 				}
 			},

@@ -2,38 +2,11 @@
 	
 */
 define(
-	['underscore','paper'], 
-	function(_, paper){
+	['underscore','paper', 'model/event'], 
+	function(_, paper, Event){
 		var Entity = {
 			_x: 0,
 			_y: 0,
-			listeners: null,
-			listen: function(listener, self){
-				if(this.listeners === null){
-					this.listeners = [];
-				}
-				if (self === undefined){
-					this.listeners.push(listener);
-				}
-				else {
-					this.listeners.push([listener, self]);
-				}
-    			
-    		},
-    		fireChanged: function(eventName,  newValue, oldValue){
-    			var that = this;
-				_.each(this.listeners, function(listener){
-					if (_.isArray(listener)){
-						var callback = listener[0];
-						var self = listener[1];
-						callback.apply(self, [that, eventName, newValue, oldValue]);
-					}
-					else {
-						listener(that, eventName, newValue, oldValue);	
-					}
-				});
-			},
-
 			getX: function(){
 				return this._x;
 			},
@@ -64,6 +37,9 @@ define(
 				return new paper.Point(this._x, this._y);
 			}
 		};
+
+		// 이벤트 관련 기능 상속
+		_.extend(Entity, Event);
 
 		return Entity;
 	}

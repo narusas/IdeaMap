@@ -8,7 +8,7 @@ define(
 				this._text = null;
 			},
 			endpointChanged: function(source, eventName, newValue, oldValue){
-				this.fireChanged('endpoints', newValue, oldValue);
+				
 			},
 			getEndpointA: function() {
 				return this._endpointA;
@@ -34,13 +34,32 @@ define(
 			setText: function(newText){
 				var oldValue = this._text;
 				this._text = newText;
-				this.fireChanged('text', newText, oldValue);
+				this.fireChanged('textChanged', newText, oldValue);
 			},
 			unlink: function() {
 				this._endpointA.unlink(this);
-				this._endpointA = null;
 				this._endpointB.unlink(this);
+				
+				this.fireChanged('unlinked');	
+
+				// 정리작업을 위해 다른 곳에서 사용할지도 모르기 때문에 null로 clean은 이벤트 처리가 끝난 후에 한다. 
+				this._endpointA = null;
 				this._endpointB = null;
+			},
+
+			isLinked: function(concept){
+				return this._endpointA == concept || this._endpointB == concept;
+			},
+
+			
+			otherSide: function(concept) {
+				if (this._endpointA === concept){
+					return this._endpointB;
+				}
+				if (this._endpointB === concept){
+					return this._endpointA;
+				}
+				return null;
 			},
 
 			asPoint: function() {
@@ -59,14 +78,7 @@ define(
 				var center = new paper.Point(left + width /2, top + height /2);
 
 				return center;	
-				
 			},
-
-			isLinked: function(concept){
-				return this._endpointA == concept || this._endpointB == concept;
-			},
-
-
 
 		});
 

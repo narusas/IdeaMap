@@ -6,10 +6,10 @@ define(
 				this.initializeLayer(ideaMap, ideaMap.concepts, ConceptView);
 			},
 			modelChanged: function(source, eventName, newValue, oldValue){
-				if (eventName === 'addConcept'){
+				if (eventName === 'conceptAdded'){
 					this.addChild(newValue);
 				}
-				else if (eventName === 'removeConcept'){
+				else if (eventName === 'conceptRemoved'){
 					this.removeChild(newValue);
 				}
 				

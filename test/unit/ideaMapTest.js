@@ -12,7 +12,7 @@ define(
 			idea.listen(function(source, propertyName, newValue, oldValue){
 				callbacked = true;
 				equal(idea, source);
-				equal('concepts', propertyName);
+				equal('conceptAdded', propertyName);
 				ok( newValue !== null);
 				ok( oldValue === undefined);
 			});
