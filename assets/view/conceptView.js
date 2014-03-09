@@ -5,8 +5,6 @@ define(
 		var verticalMargin = 8;
 		var horizontalMargin = 10;
 		var radius = 10;
-		var bgFillColor = "red";
-		var borderStrokeColor = "black";
 		var borderStrokeWidth = 3;
 		var selectedScaleUp = 1.2;
 

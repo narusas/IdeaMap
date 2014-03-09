@@ -1,6 +1,6 @@
 define(
-	['underscore', 'straps', 'paper'], 
-	function(_, Base, paper){
+	['underscore', 'straps', 'paper', 'model/colors'], 
+	function(_, Base, paper, colors){
 		var Layer = {
 			initializeLayer: function(model, alreadyAddedChildrens, ViewClass){
 				this.model = model;
@@ -9,6 +9,7 @@ define(
 				this.layer = new paper.Layer();
 				this.model.listen(this.modelChanged, this);
 				this.addAll( alreadyAddedChildrens );
+				colors.listen(this.update, this);
 			},
 			addChild:function(child){
 				// Paper에서는 shape를 생성할때 현재 Activated된 layer에 자동으로 추가한다. 
@@ -29,8 +30,14 @@ define(
 			},
 			addAll: function(childrens){
 				_.each(childrens, this.addChild, this);
+			},
+			update: function() {
+				_.each(_.values(this.childViews), function(value){
+					if (value.update){
+						value.update();
+					}
+				});
 			}
-
 		};
 
 		return Layer;
