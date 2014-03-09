@@ -24,14 +24,20 @@ define(
 				this.update();
 			},
 			updateLine: function(){
-				console.log(this.model.endpointA.asPoint());
-				console.log(this.model.endpointB.asPoint());
-				this.lineComponent.firstSegment.point 	= this.model.endpointA.asPoint();
-				this.lineComponent.lastSegment.point 	= this.model.endpointB.asPoint();
+				if(this.model.endpointA){
+					this.lineComponent.firstSegment.point 	= this.model.endpointA.asPoint();	
+				}
+				if (this.model.endpointB){
+					this.lineComponent.lastSegment.point 	= this.model.endpointB.asPoint();	
+				}
+				
+				
 			},
 			updateText: function() {
-				this.textComponent.content	= this.model.text;
-				this.textComponent.position = this.model.asPoint();
+				if (this.model){
+					this.textComponent.content	= this.model.text;
+					this.textComponent.position = this.model.asPoint();	
+				}
 			},
 			update: function(){
 				this.updateLine();

@@ -13,7 +13,6 @@ define(
 				else if (eventName === 'removeRelation'){
 					this.removeChild(newValue);
 				}
-				
 			},
 		});
 

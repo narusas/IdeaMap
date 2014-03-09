@@ -44,6 +44,9 @@ define(
 			},
 
 			asPoint: function() {
+				if (!this._endpointA || !this._endpointB){
+					return;
+				}
 				var pointA 	= this._endpointA.asPoint();
 				var pointB 	= this._endpointB.asPoint();
 				var left 	= Math.min(pointA.x, pointB.x);
@@ -55,7 +58,8 @@ define(
 
 				var center = new paper.Point(left + width /2, top + height /2);
 
-				return center;
+				return center;	
+				
 			},
 
 			isLinked: function(concept){
