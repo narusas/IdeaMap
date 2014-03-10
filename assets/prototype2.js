@@ -13,7 +13,7 @@ require(
 		var relation1 = app.ideaMap.link(concept1, concept2, 'bunded');
 		
 		paper.tool.onMouseDown = function (event) {
-			app.ideaMap.unlink(relation1);
+			app.layers.relationsLayer.layer.scale(2.0);
 		};
 
 		

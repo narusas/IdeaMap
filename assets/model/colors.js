@@ -5,27 +5,58 @@ define(
 
 			colorset: {
 				'default': {
-					'bg': 				['#FFFFFF'],
-					'concept-bg': 		['#FFFFFF','#FFFF00', '#00FFFF', '#FF00FF'],
-					'concept-border': 	['#FF0000', '#00FF00', '#0000FF'],
-					'concept-text': 	['#FF0000', '#00FF00', '#0000FF'],
-					'relation-line': 	['#FF0000', '#00FF00', '#0000FF'],
-					'relation-text': 	['#FF0000', '#00FF00', '#0000FF'],
+					'colors': ['#000000', '#FFFFFF', '#F5ECD9', '#2BACB5', '#B4CCB9', '#E84D5B','#3B3B3B'],
+					'concept-bg': 3,
+					'concept-text': 5,
+					// Concept border가 가질수 있는 컬러 인덱스 범위. 각각의  index는 colors안의 인덱스이다
+					'concept-border-range':[2,3,4,5,6],
+					'relation-line': 3,
+					'relation-text': 5,
+
 				},
+				'firenze': {
+					'colors': ['#000000', '#FFFFFF', '#468966', '#FFF0A5', '#FFB03B', '#B64926','#8E2800'],
+					'concept-bg': 3,
+					'concept-text': 5,
+					'concept-border-range':[2,3,4,5,6],
+					'relation-line': 4,
+					'relation-text': 6,
+				},
+				'1944mustang':{
+					'colors': ['#000000', '#FFFFFF', '#000000', '#263248', '#7E8AA2', '#FFFFFF','#FF9800'],
+					'concept-bg': 3,
+					'concept-text': 5,
+					'concept-border-range':[2,3,4,5,6],
+					'relation-line': 4,
+					'relation-text': 6,	
+				},
+				'Granny Smith Apple':{
+					'colors': ['#000000', '#FFFFFF', '#85DB18', '#CDE855', '#F5F6D4', '#A7C520','#493F0B'],
+					'concept-bg': 3,
+					'concept-text': 5,
+					'concept-border-range':[2,3,4,5,6],
+					'relation-line': 4,
+					'relation-text': 6,	
+				}
 			},
 
 			initialize: function(targetColorSet){
 				if (!targetColorSet){
-					targetColorSet = 'default';
+					targetColorSet = 'firenze';
 				}
 				this.change(targetColorSet);
 			},
 
-			color: function(key, index){
+			colorAt: function(key, index){
 				if (index === undefined){
 					index = 0;
 				}
-				return this._selectedColorSet[key][index];
+				return this._selectedColorSet.colors[
+					this._selectedColorSet[key][index]
+				];
+			},
+			colorOf:  function(key){
+				return this._selectedColorSet.colors[this._selectedColorSet[key]];
 			},
 			size: function() {
 				return this._selectedColorSet.length;

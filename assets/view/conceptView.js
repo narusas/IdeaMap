@@ -14,14 +14,14 @@ define(
 				this.initializeView(concept, "concept");
 
 				this.textComponent = new paper.PointText(this.model.asPoint());
-				this.textComponent.fillColor = colors.color("concept-text", this.model.textColor);
+				this.textComponent.fillColor = colors.colorOf('concept-text');
 				this.updateText();
 
 				this.bgComponent = new paper.Shape.Rectangle(new paper.Rectangle(
 					concept.asPoint(), 
 					this.borderSize()
 				), radius);
-				this.bgComponent.fillColor = colors.color("concept-bg", this.model.bgColor);
+				this.bgComponent.fillColor = colors.colorOf('concept-bg');
 				this.updateBg();
 
 				this.borderComponent = new paper.Shape.Rectangle(
@@ -30,7 +30,7 @@ define(
 						view.borderSize()
 					), radius
 				);
-				this.borderComponent.strokeColor = colors.color("concept-border", this.model.borderColor);
+				this.borderComponent.strokeColor = colors.colorAt('concept-border-range', this.model.borderColor);
 				this.borderComponent.strokeWidth = borderStrokeWidth;
 				this.updateBorder();
 
@@ -58,18 +58,18 @@ define(
 				this.textComponent.content = this.model.text;
 				// Concept의 position은 ConceptView의 중심점
 				this.textComponent.position = this.model.asPoint();
-				this.textComponent.fillColor = colors.color("concept-text", this.model.textColor);
+				this.textComponent.fillColor = colors.colorOf('concept-text');
 			},
 			
 			updateBg : function() {
-				this.bgComponent.fillColor = colors.color("concept-bg", this.model.bgColor);
+				this.bgComponent.fillColor = colors.colorOf('concept-bg');
 				this.bgComponent.size = this.borderSize();
 				this.bgComponent.radius = radius;
 				this.bgComponent.position = this.model.asPoint();
 			},
 			
 			updateBorder : function(){
-				this.borderComponent.strokeColor = colors.color("concept-border", this.model.borderColor);
+				this.borderComponent.strokeColor = colors.colorAt('concept-border-range', this.model.borderColor);
 				this.borderComponent.size = this.borderSize();
 				this.borderComponent.radius = radius;
 				this.borderComponent.position 	= this.model.asPoint();

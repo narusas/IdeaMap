@@ -4,7 +4,6 @@ define(
 		var RelationsLayer = Base.extend(Layer, {
 			initialize: function(ideaMap){
 				this.initializeLayer(ideaMap, ideaMap.relations, RelationView);
-				
 			},
 			modelChanged: function(source, eventName, newValue, oldValue){
 				if (eventName === 'relationAdded'){

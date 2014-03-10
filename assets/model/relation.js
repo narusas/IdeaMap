@@ -6,7 +6,17 @@ define(
 				this._endpointA = null;
 				this._endpointB = null;
 				this._text = null;
+				this._lineColor = 3;
 			},
+			getLineColor: function() {
+                return this._lineColor;
+            },
+            setLineColor: function(colorIndex){
+                var oldValue = this._lineColor;
+                this._lineColor = colorIndex;
+                this.fireChanged('lineColorChanged', colorIndex,  oldValue);
+            },
+			
 			endpointChanged: function(source, eventName, newValue, oldValue){
 				
 			},

@@ -20,7 +20,11 @@ define(
 				this.addConcept(c);
 				return c;
 			},
-
+			removeConcept: function(concept){
+				concept.remove();
+				this.concepts.pop(concept);
+				this.fireChanged('conceptRemoved', concept);
+			},
 			addConcept: function(concept){
 				this.concepts.push(concept);
 				this.fireChanged('conceptAdded', concept);

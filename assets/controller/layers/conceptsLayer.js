@@ -12,7 +12,6 @@ define(
 				else if (eventName === 'conceptRemoved'){
 					this.removeChild(newValue);
 				}
-				
 			},
 		});
 

@@ -15,10 +15,12 @@ define(
 				this._text = "";
 				this.ui = {};
         		this.relations = [];
-                this._bgColor = 1;
-                this._borderColor = 2;
-                this._textColor = 2;
+                this._borderColor = 0;
+                
     		},
+            remove:function(){
+                this.unlinkAll();
+            },
     		getText:function(){
     			return this._text;
     		},
@@ -71,6 +73,13 @@ define(
     			this.relations.pop(relation);
     			this.fireChanged('unlinked', relation);
     		},
+
+            unlinkAll: function(){
+                var that = this;
+                _.each(this.relations, function(relation) {
+                    that.unlink(relation);
+                });
+            },
 
     		isLinkedTo: function(otherConcept){
     			var that = this;
