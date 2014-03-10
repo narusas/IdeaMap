@@ -7,6 +7,7 @@ define(
 				this.viewClass = ViewClass;
 				this.childViews = {}; // as Map
 				this.layer = new paper.Layer();
+				this.layer.pivot = new paper.Point(0,0);
 				this.model.listen(this.modelChanged, this);
 				this.addAll( alreadyAddedChildrens );
 				colors.listen(this.update, this);

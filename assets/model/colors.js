@@ -4,12 +4,12 @@ define(
 		var Colors = Base.extend(Event, {
 
 			colorset: {
-				'default': {
+				'Visual Narrative A': {
 					'colors': ['#000000', '#FFFFFF', '#F5ECD9', '#2BACB5', '#B4CCB9', '#E84D5B','#3B3B3B'],
 					'concept-bg': 3,
-					'concept-text': 5,
+					'concept-text': 2,
 					// Concept border가 가질수 있는 컬러 인덱스 범위. 각각의  index는 colors안의 인덱스이다
-					'concept-border-range':[2,3,4,5,6],
+					'concept-border-range':[5,3,4,2,6],
 					'relation-line': 3,
 					'relation-text': 5,
 
@@ -42,7 +42,7 @@ define(
 
 			initialize: function(targetColorSet){
 				if (!targetColorSet){
-					targetColorSet = 'firenze';
+					targetColorSet = 'Visual Narrative A';
 				}
 				this.change(targetColorSet);
 			},

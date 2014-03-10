@@ -5,7 +5,7 @@ require(
 	['paper', 'app'],
 	function(paper, App){
 		var app = new App(document.getElementById('myCanvas'));
-
+		
 		
 		var concept1 = app.ideaMap.newConcept('Hello', 100, 100);
 		var concept2 = app.ideaMap.newConcept('Hello world is typical text example.', 300, 300);
@@ -13,8 +13,24 @@ require(
 		var relation1 = app.ideaMap.link(concept1, concept2, 'bunded');
 		
 		paper.tool.onMouseDown = function (event) {
-			app.layers.relationsLayer.layer.scale(2.0);
+			
+			//app.ideaMap.unlink(relation1);
+			//app.layers.relationsLayer.layer.pivot = new paper.Point(0,0);
+			// console.log('position', app.layers.relationsLayer.layer.position);
+			// console.log('bounds', app.layers.relationsLayer.layer.bounds);
+			// console.log('pivot', app.layers.relationsLayer.layer.pivot);
+			// app.layers.relationsLayer.layer.position = new paper.Point(220,220);
+			// app.layers.relationsLayer.layer.scale(1.2);
+			// console.log('position', app.layers.relationsLayer.layer.position);
+			// console.log('bounds', app.layers.relationsLayer.layer.bounds);
+			// console.log('pivot', app.layers.relationsLayer.layer.pivot);
+			// app.layers.scrollTo(100,30);
+
 		};
+
+		paper.tool.onMouseDrag = function (event) {
+			app.layers.scrollTo(event.delta.x,event.delta.y);		
+		}
 
 		
 		// var selectedGroup = null;
