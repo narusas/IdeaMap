@@ -4,9 +4,20 @@
 define(
 	['underscore','paper', 'model/event'], 
 	function(_, paper, Event){
+		var nextId = 1;
+
 		var Entity = {
 			_x: 0,
 			_y: 0,
+			_id: 0,
+			
+			defineId: function(){
+				nextId++;
+				this._id = nextId;
+			},
+			getId: function() {
+				return _id;
+			},
 			getX: function(){
 				return this._x;
 			},

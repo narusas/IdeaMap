@@ -1,7 +1,7 @@
 define(
 	['underscore', 'straps', 'paper', 'controller/layers/layer', 'view/conceptView'], 
 	function(_, Base, paper, Layer, ConceptView){
-		var RelationsLayer = Base.extend(Layer, {
+		var ConceptLayer = Base.extend(Layer, {
 			initialize: function(layers, ideaMap){
 				this.initializeLayer(layers, ideaMap, ideaMap.concepts, ConceptView);
 			},
@@ -15,6 +15,6 @@ define(
 			},
 		});
 
-		return RelationsLayer;
+		return ConceptLayer;
 	}
 );

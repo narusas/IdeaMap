@@ -12,11 +12,11 @@ define(
 		// 여기서는 Base와 Entity 다중 상속을 하고 있다.
 		var Concept = Base.extend( Entity, { 
 			initialize: function() {
+                this._id = this.generatedId();
 				this._text = "";
 				this.ui = {};
         		this.relations = [];
                 this._borderColor = 0;
-                
     		},
             remove:function(){
                 this.unlinkAll();
