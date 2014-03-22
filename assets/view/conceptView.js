@@ -9,42 +9,42 @@ define(
 		var selectedScaleUp = 1.2;
 
 		var ConveptView = Base.extend(View, {
-			initialize: function(concept){
+			initialize: function(concept, layers){
 				var view = this;
+				this.parent = layers;
 				this.initializeView(concept, "concept");
 
-				this.textComponent = new paper.PointText(this.model.asPoint());
-				this.textComponent.fillColor = colors.colorOf('concept-text');
+				this.textComponent = new paper.PointText({
+					position: concept.asPoint(),
+					fillColor: colors.colorOf('concept-text'),
+					pivot: new paper.Point(0,0),
+				});
+				
 				this.updateText();
 
-				this.bgComponent = new paper.Shape.Rectangle(new paper.Rectangle(
-					concept.asPoint(), 
-					this.borderSize()
-				), radius);
-				this.bgComponent.fillColor = colors.colorOf('concept-bg');
+				this.bgComponent = new paper.Shape.Rectangle({
+					point: concept.asPoint(),
+					size: view.borderSize() ,
+					radius: radius,
+					fillColor: colors.colorOf('concept-bg'),
+					pivot: new paper.Point(0,0),
+				});
 				this.updateBg();
 
-				this.borderComponent = new paper.Shape.Rectangle(
-					new paper.Rectangle(
-						concept.asPoint(), 
-						view.borderSize()
-					), radius
-				);
-				this.borderComponent.strokeColor = colors.colorAt('concept-border-range', this.model.borderColor);
-				this.borderComponent.strokeWidth = borderStrokeWidth;
+				this.borderComponent = new paper.Shape.Rectangle({
+					point: concept.asPoint(),
+					size: view.borderSize() ,
+					radius: radius,
+					strokeColor: colors.colorAt('concept-border-range', concept.borderColor),
+					strokeWidth: borderStrokeWidth,
+					pivot: new paper.Point(0,0),
+				});
+
 				this.updateBorder();
 
 				this.group.addChild(this.bgComponent);
 				this.group.addChild(this.textComponent);
 				this.group.addChild(this.borderComponent);
-
-				this.group.startDrag = function(){
-					view.scaleUpBorder();
-				}
-
-				this.group.endDrag = function(){
-					view.scaleDownBorder();
-				}
 			},
 
 			borderSize : function() {
@@ -69,6 +69,7 @@ define(
 			},
 			
 			updateBorder : function(){
+				console.log("updateBorder", this.parent.x, this.parent.y);
 				this.borderComponent.strokeColor = colors.colorAt('concept-border-range', this.model.borderColor);
 				this.borderComponent.size = this.borderSize();
 				this.borderComponent.radius = radius;

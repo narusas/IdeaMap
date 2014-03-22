@@ -11,6 +11,6 @@ Go to https://github.com/narusas/IdeaMap/wiki
 
 `npm install -g bower`
 
-`bower install`
+`sudo bower install`
 
 `grunt`

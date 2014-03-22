@@ -4,17 +4,27 @@ define(
 		var lineStrokeWidth = 3;
 
 		var RelationView = Base.extend(View, {
-			initialize: function(relation) {
+			initialize: function(relation, layers) {
+				this.parent = layers;
 				var view = this;
 				this.initializeView(relation, "relation");
 				
-				this.lineComponent = new paper.Path.Line(relation.endpointA.asPoint(),relation.endpointB.asPoint() );
-				this.lineComponent.strokeColor = colors.colorOf('relation-line');
-				this.lineComponent.strokeWidth = lineStrokeWidth;
+				this.lineComponent = new paper.Path.Line({
+					from: relation.endpointA.asPoint(),
+					to: relation.endpointB.asPoint(),
+					strokeColor: colors.colorOf('relation-line'),
+					strokeWidth: lineStrokeWidth,
+					pivot: new paper.Point(0,0),
+				});
 
-				this.textComponent = new paper.PointText(relation.asPoint());
-				this.textComponent.fillColor = colors.colorOf('relation-text');
-				this.textComponent.content = this.model.text;
+
+				this.textComponent = new paper.PointText({
+					point: relation.asPoint(),
+					fillColor: colors.colorOf('relation-text'),
+					content: relation.text,
+					pivot: new paper.Point(0,0),
+				});
+				
 				this.updateText();
 
 				this.group.addChild(this.lineComponent);

@@ -7,13 +7,22 @@ require(
 		var app = new App(document.getElementById('myCanvas'));
 		
 		
-		var concept1 = app.ideaMap.newConcept('Hello', 100, 100);
+		var concept1 = app.ideaMap.newConcept('Hello', 0, 0);
 		var concept2 = app.ideaMap.newConcept('Hello world is typical text example.', 300, 300);
 
 		var relation1 = app.ideaMap.link(concept1, concept2, 'bunded');
+		paper.tool.onKeyUp = function(event) {
+			if (event.key === '=' || event.key === '+'){
+				app.layers.zoomUp();
+			}
+			if (event.key === '-'){
+				app.layers.zoomDown();
+			}
+			console.log("Bounds:", app.layers._scrollables.bounds);
+		}
 		
 		paper.tool.onMouseDown = function (event) {
-			
+			console.log(event.item);
 			//app.ideaMap.unlink(relation1);
 			//app.layers.relationsLayer.layer.pivot = new paper.Point(0,0);
 			// console.log('position', app.layers.relationsLayer.layer.position);
@@ -61,10 +70,30 @@ require(
 		// 	console.log("selectedGroup", selectedGroup);
 		// 	selectedGroup.startDrag();
 		// }
+		var count = 0;
+		paper.tool.onMouseUp = function (event) {
+			console.log("Bounds:", app.layers._scrollables.bounds);
+			if (event.event.detail > 1){ // doble click
+				console.log("downPoint:", event.downPoint);
 
-		// paper.tool.onMouseUp = function (event) {
+
+				/*
+				endpoint는 화면상의 마우스 클릭 위치이다. 
+				scale 이 1일때 이 좌표는 layers가 스크롤된 것만큼 뺴주면 된다.
+				scale이 2일때 데이터는 화면상에 2배의 크기로 보인다. 따라서 화면좌표를 2로 나누고 
+				*/
+				var x = event.downPoint.x;
+				var y = event.downPoint.y;
+				count++;
+				var concept1 = app.ideaMap.newConcept(
+					'Hello',  
+					x / app.layers.scale - app.layers.x,  
+					y / app.layers.scale  - app.layers.y
+				);								
+			}
+
 			
-		// }
+		}
 
 		// paper.tool.onMouseDrag = function (event) {
 		// 	if (selectedGroup == null){
